@@ -31,6 +31,7 @@ data = load_data(DATA_URL)
 st.sidebar.subheader("Visualization Selector")
 sentiment_count = st.sidebar.checkbox("Show Sentiment Count")
 word_cloud = st.sidebar.checkbox("Generate Word Cloud")
+tweet_length_histogram = st.sidebar.checkbox("Show Tweet Length Histogram")
 
 # Data preview
 if st.checkbox("Show Raw Data"):
@@ -59,3 +60,10 @@ if word_cloud:
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
     st.pyplot(plt)
+
+# Histogram for Tweet Lengths
+if tweet_length_histogram:
+    st.subheader("Histogram of Tweet Lengths")
+    data['tweet_length'] = data['text'].apply(len)
+    fig = px.histogram(data, x='tweet_length', nbins=30, title="Distribution of Tweet Lengths")
+    st.plotly_chart(fig)
